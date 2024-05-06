@@ -1,0 +1,206 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Products
+  license:
+    name: MIT
+paths:
+  /product:
+    get:
+      summary: List all products
+      operationId: listProducts
+      tags:
+        - products
+      responses:
+        '200':
+          description: A paged array of products
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Products"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /product/{productId}:
+    get:
+      summary: Info for a specific product
+      operationId: getProductById
+      tags:
+        - product
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: The id of the product to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      summary: Patch all products
+      operationId: patchProducts
+      tags:
+        - products
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          description: The id of the product to retrieve
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  type: integer
+                  format: int32
+      responses:
+        '200':
+          description: A paged array of products
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Products"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /settings:
+    get:
+      summary: Get settings
+      operationId: getSettings
+      tags:
+        - settings
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Settings"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /categories:
+    get:
+      summary: Get all categories
+      operationId: getCategories
+      tags:
+        - categories
+      responses:
+        '200':
+          description: A paged array of categories
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Categories"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    Product:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        price:
+          type: integer
+          format: int32
+        img:
+          type: string
+        category:
+          type: string
+        quantity:
+          type: integer
+        stock:
+          type: integer
+    Products:
+      type: array
+      items:
+        $ref: "#/components/schemas/Product"
+    Settings:
+      type: array
+      items:
+        $ref: "#/components/schemas/Setting"
+    Setting:
+      type: object
+      properties:
+        id:
+          type: string
+        settings:
+          type: object
+          properties:
+            app:
+              type: string
+            store:
+              type: string
+            address_one:
+              type: string
+            address_two:
+              type: string
+            contact:
+              type: string
+            tax:
+              type: string
+            symbol:
+              type: string
+            percentage:
+              type: string
+            footer:
+              type: string
+            img:
+              type: string
+    Categories:
+      type: array
+      items:
+        $ref: "#/components/schemas/Category"
+    Category:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
