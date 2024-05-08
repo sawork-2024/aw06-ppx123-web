@@ -1,0 +1,13 @@
+services:
+    webpos-api:
+        build: ./webpos-api
+        ports:
+        - "8081:8081"
+    webpos-carts:
+        build: ./webpos-carts
+        ports:
+        - "8082:8082"
+    webpos-products:
+        build: ./webpos-products
+        ports:
+        - "8083:8083"

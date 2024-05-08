@@ -1,0 +1,31 @@
+spring:
+  main:
+    web-application-type: reactive
+  application:
+    name: webpos-gateway
+  config:
+    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8080/}
+  cloud:
+    gateway:
+      routes:
+        - id: webpos-carts
+          uri: lb://webpos-carts
+          predicates:
+            - Path=/carts
+        - id: webpos-counter
+          uri: lb://webpos-counter
+          predicates:
+            - Path=/counter
+        - id: webpos-products
+          uri: lb://customers-service
+          predicates:
+            - Path=/product
+
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+    import: configserver:http://config-server:8080

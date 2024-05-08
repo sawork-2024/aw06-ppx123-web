@@ -5,6 +5,107 @@ info:
   license:
     name: MIT
 paths:
+  /carts:
+    get:
+      summary: List all carts
+      operationId: listCarts
+      tags:
+        - carts
+      responses:
+        '200':
+          description: A paged array of carts
+          content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Carts"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+        summary: Create an empty cart
+        operationId: createCart
+        tags:
+            - carts
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+        responses:
+          '200':
+            description: Expected response to a valid request
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Cart"
+          default:
+            description: unexpected error
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+  /carts/{cartId}:
+    get:
+      summary: Info for a specific cart
+      operationId: getCartById
+      tags:
+        - cart
+      parameters:
+        - name: cartId
+          in: path
+          required: true
+          description: The id of the cart to retrieve
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+        summary: Add a item to the cart
+        operationId: addItemToCart
+        tags:
+            - cart
+        parameters:
+            - name: cartId
+              in: path
+              required: true
+              description: The id of the cart to retrieve
+              schema:
+                type: integer
+                format: int32
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CartItem"
+        responses:
+          '200':
+            description: Expected response to a valid request
+            content:
+              application/json:
+                schema:
+                    $ref: "#/components/schemas/Cart"
+          default:
+            description: unexpected error
+            content:
+              application/json:
+                schema:
+                    $ref: "#/components/schemas/Error"
   /product:
     get:
       summary: List all products
@@ -85,38 +186,27 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /settings:
-    get:
-      summary: Get settings
-      operationId: getSettings
+  /counter/checkout:
+    post:
+      summary: Checkout
+      operationId: checkout
       tags:
-        - settings
+        - counter
+      requestBody:
+        description: cart
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Cart"
       responses:
         '200':
-          description: Expected response to a valid request
+          description: total of the cart
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Settings"
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-  /categories:
-    get:
-      summary: Get all categories
-      operationId: getCategories
-      tags:
-        - categories
-      responses:
-        '200':
-          description: A paged array of categories
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Categories"
+                type: number
+                format: double
         default:
           description: unexpected error
           content:
@@ -125,19 +215,44 @@ paths:
                 $ref: "#/components/schemas/Error"
 components:
   schemas:
+    Carts:
+      type: array
+      items:
+          $ref: "#/components/schemas/Cart"
+    CartItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        amount:
+          type: integer
+          format: int32
+        product:
+          $ref: "#/components/schemas/Product"
+    Cart:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/CartItem"
     Product:
       type: object
       required:
         - id
         - name
       properties:
-        _id:
+        id:
           type: string
         name:
           type: string
         price:
-          type: integer
-          format: int32
+          type: number
+          format: double
         img:
           type: string
         category:
@@ -150,49 +265,6 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/Product"
-    Settings:
-      type: array
-      items:
-        $ref: "#/components/schemas/Setting"
-    Setting:
-      type: object
-      properties:
-        id:
-          type: string
-        settings:
-          type: object
-          properties:
-            app:
-              type: string
-            store:
-              type: string
-            address_one:
-              type: string
-            address_two:
-              type: string
-            contact:
-              type: string
-            tax:
-              type: string
-            symbol:
-              type: string
-            percentage:
-              type: string
-            footer:
-              type: string
-            img:
-              type: string
-    Categories:
-      type: array
-      items:
-        $ref: "#/components/schemas/Category"
-    Category:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
     Error:
       type: object
       required:
