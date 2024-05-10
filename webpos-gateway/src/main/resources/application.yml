@@ -1,31 +1,28 @@
 spring:
-  main:
-    web-application-type: reactive
-  application:
-    name: webpos-gateway
-  config:
-    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8080/}
   cloud:
     gateway:
       routes:
         - id: webpos-carts
           uri: lb://webpos-carts
           predicates:
-            - Path=/carts
+            - Path=/carts/**
         - id: webpos-counter
           uri: lb://webpos-counter
           predicates:
-            - Path=/counter
+            - Path=/counter/**
         - id: webpos-products
-          uri: lb://customers-service
+          uri: lb://webpos-products
           predicates:
-            - Path=/product
-
-
-
----
-spring:
+            - Path=/product/**
+  main:
+    web-application-type: reactive
+  application:
+    name: webpos-gateway
   config:
-    activate:
-      on-profile: docker
-    import: configserver:http://config-server:8080
+    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8080/}
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://webpos-discovery:8761/eureka/
+  instance:
+    instance-id: ${spring.application.name}:${random.uuid}

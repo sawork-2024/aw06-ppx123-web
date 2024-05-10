@@ -3,7 +3,7 @@ server:
 
 eureka:
   instance:
-    hostname: localhost
+    hostname: 0.0.0.0
   # standalone mode
   client:
     registerWithEureka: false
@@ -12,7 +12,7 @@ eureka:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
 
 spring:
+  config:
+    import: optional:configserver:http://localhost:8888
   application:
     name: webpos-discovery
-  config:
-    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888/}

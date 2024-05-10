@@ -1,13 +1,29 @@
 services:
-    webpos-api:
-        build: ./webpos-api
-        ports:
-        - "8081:8081"
     webpos-carts:
-        build: ./webpos-carts
+        build: webpos-carts
         ports:
-        - "8082:8082"
+            -  "9001:9001"
+        depends_on:
+            - webpos-discovery
+    webpos-counter:
+        build: webpos-counter
+        ports:
+            - "8082:8082"
+        depends_on:
+            - webpos-discovery
     webpos-products:
-        build: ./webpos-products
+        build: webpos-products
         ports:
-        - "8083:8083"
+            - "8083:8083"
+        depends_on:
+            - webpos-discovery
+    webpos-gateway:
+        build: webpos-gateway
+        ports:
+            - "8080:8080"
+        depends_on:
+            - webpos-discovery
+    webpos-discovery:
+        image:  webpos-discovery
+        ports:
+            - "8761:8761"

@@ -61,10 +61,19 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.example.webpos</groupId>
-            <artifactId>webpos-carts</artifactId>
-            <version>0.0.1</version>
-            <scope>compile</scope>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${mapstruct.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis.generator</groupId>
+            <artifactId>mybatis-generator-core</artifactId>
+            <version>1.4.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <version>4.1.1</version>
         </dependency>
     </dependencies>
 
