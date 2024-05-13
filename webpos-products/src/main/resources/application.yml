@@ -7,7 +7,7 @@ spring:
     type: redis
   data:
     redis:
-      host: 172.27.143.53
+      host: 114.212.85.112
       port: 6379
 server:
   port: 8083
