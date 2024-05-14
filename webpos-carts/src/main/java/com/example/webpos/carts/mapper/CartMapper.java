@@ -33,11 +33,11 @@ public interface CartMapper {
     }
 
     default CartItemDto toItemDto(Item item) {
-        return new CartItemDto().id(item.id()).product(getProductDto(item));
+        return new CartItemDto().id(item.id()).amount(item.quantity()).product(getProductDto(item));
     }
 
     default Item toItem(CartItemDto itemDto, CartDto cartDto) {
-        return new Item().id(itemDto.getId()).id(cartDto.getId()).productId(itemDto.getProduct().getId())
+        return new Item().id(itemDto.getId()).cart(toCart(cartDto)).productId(itemDto.getProduct().getId())
                 .productName(itemDto.getProduct().getName()).quantity(itemDto.getAmount()).price(itemDto.getProduct().getPrice());
     }
 

@@ -106,6 +106,31 @@ paths:
               application/json:
                 schema:
                     $ref: "#/components/schemas/Error"
+  /carts/checkout/{cartId}:
+    get:
+      summary: Checkout the cart
+      operationId: checkoutCart
+      parameters:
+        - name: cartId
+          in: path
+          required: true
+          description: The id of the cart to retrieve
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /product:
     get:
       summary: List all products
@@ -215,6 +240,12 @@ paths:
                 $ref: "#/components/schemas/Error"
 components:
   schemas:
+    Order:
+      type: object
+      properties:
+        total:
+          type: number
+          format: double
     Carts:
       type: array
       items:

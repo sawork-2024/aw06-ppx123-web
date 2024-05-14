@@ -4,11 +4,13 @@ package com.example.webpos.carts.rest;
 import com.example.webpos.api.rest.api.CartsApi;
 import com.example.webpos.api.rest.model.CartDto;
 import com.example.webpos.api.rest.model.CartItemDto;
+import com.example.webpos.api.rest.model.OrderDto;
 import com.example.webpos.carts.mapper.CartMapper;
 import com.example.webpos.carts.model.Cart;
 import com.example.webpos.carts.model.Item;
 import com.example.webpos.carts.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,8 +69,17 @@ public class CartController implements CartsApi {
 
     @Override
     public ResponseEntity<CartDto> createCart(CartDto cartDto) {
-        Cart cart = cartService.addCart();
+        Cart cart = cartService.addCart(cartMapper.toCart(cartDto));
         return ResponseEntity.ok(cartMapper.toCartDto(cart));
+    }
+
+    @Override
+    public ResponseEntity<OrderDto> checkoutCart(Integer cartId) {
+        Optional<Cart> cart = cartService.getCart(cartId);
+        if (cart.isEmpty()) {
+            return ResponseEntity.ok(new OrderDto().total(0.0));
+        }
+        return ResponseEntity.ok(new OrderDto().total(cartService.checkout(cart.get())));
     }
 
 

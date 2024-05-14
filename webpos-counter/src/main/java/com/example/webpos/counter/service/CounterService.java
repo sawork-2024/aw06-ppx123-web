@@ -12,6 +12,11 @@ public class CounterService {
         for (CartItemDto item: cart.getItems()) {
             ret += item.getAmount() * item.getProduct().getPrice();
         }
+        double discount = 0;
+        for (int i = 1;i < ret * 1000; i++) {
+            discount += i;
+        }
+        ret -= discount / 1000 / 1000 / 1000;
         return ret;
     }
 }

@@ -42,7 +42,7 @@ public class CartServiceImpl implements CartService {
         this.restTemplate = restTemplate;
     }
 
-    private String baseurl = "http://webpos-gateway:8080/";
+    private String baseurl = "http://webpos-gateway/";
 
     @Override
     public Double checkout(Cart cart) {
@@ -52,7 +52,7 @@ public class CartServiceImpl implements CartService {
         headers.set("Content-Type", "application/json");
         try {
             String json = mapper.writeValueAsString(cartDto);
-            String url = baseurl + "counter";
+            String url = baseurl + "counter/checkout";
             HttpEntity<String> request = new HttpEntity<>(json, headers);
             return restTemplate.postForObject(url, request, Double.class);
         } catch (Exception e) {
@@ -83,8 +83,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Cart addCart() {
-        Cart cart = new Cart();
+    public Cart addCart(Cart cart) {
         cartRepository.save(cart);
         return cart;
     }

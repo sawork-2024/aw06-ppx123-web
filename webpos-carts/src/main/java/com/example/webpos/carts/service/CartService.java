@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface CartService {
     Double checkout(Cart cart);
 
-    Cart addCart();
+    Cart addCart(Cart cart);
 
     Cart addItemToCart(Integer cartId, Item item);
 

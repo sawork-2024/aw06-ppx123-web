@@ -6,3 +6,4 @@ generated/
 **/**/out/
 **/**/build/
 **/**/.mvn/
+test/
