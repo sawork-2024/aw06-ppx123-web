@@ -3,18 +3,20 @@ services:
         build: ./webpos-carts
         ports:
             -  "9001:9001"
+        cpus: 2.0
         depends_on:
             - webpos-discovery
     webpos-counter:
         build: ./webpos-counter
-        ports:
-            - "8082:8082"
+        cpus: 2.0
+        scale: 1
         depends_on:
             - webpos-discovery
     webpos-products:
         build: ./webpos-products
         ports:
             - "8083:8083"
+        cpus: 2.0
         depends_on:
             - webpos-discovery
     webpos-gateway:

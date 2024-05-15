@@ -42,7 +42,7 @@ public class CartServiceImpl implements CartService {
         this.restTemplate = restTemplate;
     }
 
-    private String baseurl = "http://webpos-gateway/";
+    private final String baseurl = "http://webpos-gateway:8080/";
 
     @Override
     public Double checkout(Cart cart) {

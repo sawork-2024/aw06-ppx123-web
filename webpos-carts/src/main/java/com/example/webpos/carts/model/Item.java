@@ -16,9 +16,9 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @ManyToOne
+
     @JoinColumn(name = "cart_id")
-    private Cart cart;
+    private long cartId;
 
     @Column(name = "product_id")
     private String productId;

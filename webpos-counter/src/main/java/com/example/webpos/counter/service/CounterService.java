@@ -13,10 +13,10 @@ public class CounterService {
             ret += item.getAmount() * item.getProduct().getPrice();
         }
         double discount = 0;
-        for (int i = 1;i < ret * 1000; i++) {
+        for (int i = 1;i < ret * 10000000; i++) {
             discount += i;
         }
-        ret -= discount / 1000 / 1000 / 1000;
+        ret -= discount / 1000 / 1000 / 1000 / 10000;
         return ret;
     }
 }

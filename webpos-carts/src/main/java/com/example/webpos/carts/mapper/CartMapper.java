@@ -37,7 +37,7 @@ public interface CartMapper {
     }
 
     default Item toItem(CartItemDto itemDto, CartDto cartDto) {
-        return new Item().id(itemDto.getId()).cart(toCart(cartDto)).productId(itemDto.getProduct().getId())
+        return new Item().id(itemDto.getId()).cartId(cartDto.getId()).productId(itemDto.getProduct().getId())
                 .productName(itemDto.getProduct().getName()).quantity(itemDto.getAmount()).price(itemDto.getProduct().getPrice());
     }
 

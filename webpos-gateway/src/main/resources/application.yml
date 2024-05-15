@@ -27,7 +27,3 @@ eureka:
     registry-fetch-interval-seconds: 5
   instance:
     instance-id: ${spring.application.name}:${random.uuid}
-
-logging:
-  level:
-    root: DEBUG

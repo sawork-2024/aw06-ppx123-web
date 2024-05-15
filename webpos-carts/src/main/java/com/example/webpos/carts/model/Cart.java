@@ -17,7 +17,7 @@ public class Cart {
     private Integer id;
 
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "cartId", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Item> items = new ArrayList<>();
 
     public boolean addItem(Item item) {
@@ -27,7 +27,7 @@ public class Cart {
                 return true;
             }
         }
-        item.cart(this);
+        item.cartId(id);
         return items.add(item);
     }
 
