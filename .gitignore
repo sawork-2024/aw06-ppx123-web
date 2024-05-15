@@ -7,3 +7,4 @@ generated/
 **/**/build/
 **/**/.mvn/
 test/
+.DS_Store
